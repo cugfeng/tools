@@ -1,10 +1,10 @@
 #!/bin/bash
 
-version=1.0.0
+version=1.0.1
 date=2011-10-29
 
 cs_file=cscope.files
-clean_file_list="cscope.files   cscope.in.out  cscope.po.out cscope.out tags"
+clean_file_list="cscope.files cscope.in.out cscope.po.out cscope.out tags"
 
 function gen_file_list()
 {
@@ -35,7 +35,7 @@ function clean()
 	rm -f $clean_file_list
 }
 
-function usage()
+function show_usage()
 {
 	echo "Usage:"
 	echo "    $(basename $0) [-f | -s | -c | -h | -v]"
@@ -82,7 +82,7 @@ while [ -n "$1" ]; do
 			;;
 
 		-h|--help)
-			usage
+			show_usage
 			;;
 
 		-v|--version)
