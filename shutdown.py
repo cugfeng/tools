@@ -6,11 +6,15 @@ import time
 import string
 from optparse import OptionParser
 
-def shutdownInMinutes(_min):
+def shutdown_in_minutes(_min):
 	print("Shutdown in {0:.0f} hour(s) {1:.0f} minute(s)...".format(_min / 60, _min % 60))
 
-	_sec = _min * 60
-	time.sleep(_sec)
+	while _min > 0:
+		_hour_left, _min_left = divmod(_min, 60)
+		print("\rTime left: {0:.0f} hour(s) {1:02.0f} minute(s)...".format(_hour_left, _min_left), end='')
+
+		time.sleep(60)
+		_min -= 1
 
 	if sys.platform == "win32":
 		os.system("shutdown -s")
@@ -51,7 +55,7 @@ def main(args):
 		else:
 			parser.error("argument of in must end with 'h' or 'm'")
 		_min = int(options.intime[:-1]) * _times
-		shutdownInMinutes(_min)
+		shutdown_in_minutes(_min)
 
 	if options.attime is not None:
 		_min = time2min(options.attime) 
@@ -59,7 +63,7 @@ def main(args):
 		_cur_min = _now.tm_hour * 60 + _now.tm_min
 		if (_min < _cur_min):
 			_min += 24 * 60
-		shutdownInMinutes(_min - _cur_min)
+		shutdown_in_minutes(_min - _cur_min)
 
 if __name__ == "__main__":
 	main(sys.argv)
