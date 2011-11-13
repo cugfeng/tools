@@ -112,7 +112,7 @@ while [ -n "$1" ]; do
 			;;
 
 		*)
-			file_list="$file_list $1"
+			file_list="$file_list $(pwd)/$1"
 			shift
 			;;
 	esac
@@ -125,7 +125,7 @@ fi
 
 if [ $b_gen_file_list == "true" ]; then
 	if [ -z "$file_list" ]; then
-		file_list=.
+		file_list=$(pwd)
 	fi
 	gen_file_list $file_list
 fi
