@@ -1,6 +1,6 @@
 #!/bin/bash
 
-version=1.0.1
+version=1.0.2
 date=2011-12-01
 
 cs_file=cscope.files
