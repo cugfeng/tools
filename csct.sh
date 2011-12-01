@@ -1,7 +1,7 @@
 #!/bin/bash
 
 version=1.0.1
-date=2011-10-29
+date=2011-12-01
 
 cs_file=cscope.files
 lookup_file=filenametags
