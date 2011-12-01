@@ -14,9 +14,9 @@ function gen_file_list()
 	rm -f $cs_file
 	for _file in $_file_list; do
 		if [ -f $_file ]; then
-			echo $_file >> $cs_file
+			echo `pwd`/$_file >> $cs_file
 		elif [ -d $_file ]; then
-			find $_file -regex ".*\.\(h\|c\|cpp\)" -type f >> $cs_file 2>/dev/null
+			find `pwd`/$_file -regex ".*\.\(h\|c\|cpp\|java\)" -type f >> $cs_file 2>/dev/null
 		else
 			echo "Warning: ignore \`$_file'" >&2
 		fi
@@ -118,23 +118,30 @@ while [ -n "$1" ]; do
 	esac
 done
 
-if [ $b_clean == "true" ]; then
+if [ $b_clean = "true" ]; then
 	clean
 	exit 0
 fi
 
-if [ $b_gen_file_list == "true" ]; then
+if [ "$b_gen_file_list" = "false" ] && [ "$b_gen_symbol_list" = "false" ] \
+	   && [ "$b_gen_lookup_file_list" = "false" ]; then
+	b_gen_file_list=true
+	b_gen_symbol_list=true
+	b_gen_lookup_file_list=true
+fi
+
+if [ $b_gen_file_list = "true" ]; then
 	if [ -z "$file_list" ]; then
-		file_list=$(pwd)
+		file_list=.
 	fi
 	gen_file_list $file_list
 fi
 
-if [ $b_gen_symbol_list == "true" ]; then
+if [ $b_gen_symbol_list = "true" ]; then
 	gen_symbol_list
 fi
 
-if [ $b_gen_lookup_file_list == "true" ]; then
+if [ $b_gen_lookup_file_list = "true" ]; then
 	gen_lookup_file_list
 fi
 
