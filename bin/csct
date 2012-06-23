@@ -1,0 +1,144 @@
+#!/bin/bash
+
+version=1.0.2
+date=2012-06-09
+
+top=`pwd`
+cs_file=cscope.files
+lookup_file=filenametags
+clean_file_list="$cs_file cscope.in.out cscope.po.out cscope.out tags $lookup_file"
+
+function gen_file_list()
+{
+	local _file_list=$@
+	
+	rm -f $cs_file
+	for _file in $_file_list; do
+		if [ -f $_file ]; then
+			echo $top/$_file >> $cs_file
+		elif [ -d $_file ]; then
+			find $top/$_file -regex ".*\.\(h\|c\|cpp\|java\)" -type f >> $cs_file 2>/dev/null
+		else
+			echo "Warning: ignore \`$_file'" >&2
+		fi
+	done
+}
+
+function gen_symbol_list()
+{
+	if [ -f $cs_file ]; then
+		cscope -bkq -i $cs_file
+		ctags -L $cs_file
+	fi
+}
+
+function gen_lookup_file_list()
+{
+	local _tmp_file=$cs_file.sorted
+	
+	rm -f $_tmp_file
+	if [ -f $cs_file ]; then
+		for file in `cat $cs_file`; do
+			printf "%s\t%s\t1\n" `basename $file` $file >> $_tmp_file
+		done
+		echo -e "!_TAG_FILE_SORTED\t2\t/2=foldcase/" > $lookup_file
+		cat $_tmp_file | sort -f >> $lookup_file
+	fi
+}
+
+function edit_file_list()
+{
+	vim -e -s $cs_file < "$1"
+}
+
+function clean()
+{
+	rm -f $clean_file_list
+}
+
+function show_usage()
+{
+	message="
+Generate file tags using cscope and ctags.
+Usage: 
+	`basename $0` [options]
+Option:
+	-a: same as -f -s -l
+	-c: clean file tags
+	-e file: edit file list using <file>
+	-f: generate file list
+	-h: show this help
+	-l: generate filenametags
+	-s: generate symbol
+	-v: show version
+"
+
+	echo "$message" >&2
+	exit 0
+}
+
+function show_version()
+{
+	echo "Version: $version"
+	echo "Date   : $date"
+
+	exit 0
+}
+
+b_gen_file_list=false
+b_gen_symbol_list=false
+b_gen_lookup_file_list=false
+vim_file=
+
+if [ $# -eq 0 ]; then
+	show_usage
+else
+	while getopts "ace:fhlsv" opt; do
+		case $opt in
+			a)
+				b_gen_file_list=true
+				b_gen_symbol_list=true
+				b_gen_lookup_file_list=true
+				;;
+			c)
+				clean
+				exit 0
+				;;
+			e)
+				vim_file=$OPTARG
+				;;
+			f)
+				b_gen_file_list=true
+				;;
+			h)
+				show_usage
+				;;
+			l)
+				b_gen_lookup_file_list=true
+				;;
+			s)
+				b_gen_symbol_list=true
+				;;
+			v)
+				show_version
+				;;
+		esac
+	done
+fi
+
+if [ $b_gen_file_list = "true" ]; then
+	gen_file_list $top
+fi
+
+if [ -n "$vim_file" ]; then
+	edit_file_list $vim_file
+fi
+
+if [ $b_gen_symbol_list = "true" ]; then
+	gen_symbol_list
+fi
+
+if [ $b_gen_lookup_file_list = "true" ]; then
+	gen_lookup_file_list
+fi
+
