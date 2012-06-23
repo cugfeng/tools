@@ -5,7 +5,6 @@
 # shutdown the computer.
 ##############################################################################
 
-HOME=/home/cugfeng
 DQ_HOME=$HOME/.dqueue
 DQ_TASK=$DQ_HOME/task_list
 DQ_DONE=$DQ_HOME/done_list
