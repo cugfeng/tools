@@ -1,5 +1,16 @@
-Update notes:
+Under Linux:
+* copy bash/* to $HOME
+* copy vim/* to $HOME
+* copy bin to $HOME/tools
+* copy scripts to $HOME/tools
 
+Under Windows:
+* shutdown.py for shutdowning computer in/at special time
+
+Other:
+* old/* for old scripts which have been replaced
+
+Update notes:
 2011-10-29 v1.0.0
 Initial version
 
@@ -7,6 +18,6 @@ Initial version
 1. Remove useless spaces
 2. Change function name
 
-2012-06-16 
-Add scripts currently using
+2012-06-23 
+Add scripts/settings currently using
 
