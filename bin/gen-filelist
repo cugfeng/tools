@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if [ $# -ne 2 ]; then
+	echo "Usage: `basename $0` dirs files"
+	exit 0
+fi
+
+dirs=$1
+files=$2
+
+[ -f $files ] && rm -f $files
+cat $dirs | while read dir; do
+	[ -z "$dir" ] && continue
+	echo "==> $dir"
+	find $dir -regex ".*\.\(h\|c\|cpp\)" -type f 2>/dev/null >> $files
+done
+

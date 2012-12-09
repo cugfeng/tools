@@ -1,0 +1,16 @@
+#!/bin/bash
+
+filelist="cscope.files"
+
+[ -f $filelist ] && rm -f $filelist
+
+echo "Generating file list..."
+for dir in *.dirs; do
+	base=`echo $dir | sed 's/.dirs//g'`
+	gen-filelist $dir $base.files
+	cat $base.files >> $filelist
+done
+
+echo "Generating symbol..."
+csct -s
+
