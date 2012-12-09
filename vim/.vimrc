@@ -71,6 +71,9 @@ nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
 set showmode
 
+au BufEnter *.files set cursorline
+au BufLeave *.files set nocursorline
+
 function! ListProjFile()
 	let filelist = findfile("cscope.files", ".;")
 	if (!empty(filelist))
@@ -79,15 +82,17 @@ function! ListProjFile()
 		echo "Warning: no `cscope.files' found!"
 	endif
 endfunction
-function! OpenProjFiles()
-	let newfile = getline(line("."))
-	if filereadable(newfile)
-		exe "e " . newfile
-	else
-		echo "Warning: no file found!"
-	endif
-endfunction
 nmap <F4>l :call ListProjFile()<CR>
-nmap <F4>o :call OpenProjFiles()<CR>
 nmap <F4>m :MRU<CR>
+
+" Replaced by 'gf' at normal mode
+" function! OpenProjFiles()
+" 	let newfile = getline(line("."))
+" 	if filereadable(newfile)
+" 		exe "e " . newfile
+" 	else
+" 		echo "Warning: no file found!"
+" 	endif
+" endfunction
+" nmap <F4>o :call OpenProjFiles()<CR>
 
