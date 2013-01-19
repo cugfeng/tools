@@ -1,23 +1,16 @@
+This project is Shell/Python scripts used in my daily life, mainly for:
+1. Bash configruation
+2. Vim configruation
+3. Cscope related scripts
+
 Under Linux:
-* copy bash/* to $HOME
-* copy vim/* to $HOME
-* copy bin to $HOME/tools
-* copy scripts to $HOME/tools
+1. Copy bash/* to $HOME
+2. Copy vim/* to $HOME
+3. Copy bin to $HOME/tools
+4. Copy scripts to $HOME/tools
 
 Under Windows:
-* shutdown.py for shutdowning computer in/at special time
+1. shutdown.py for shutdowning computer in/at special time
 
 Other:
-* old/* for old scripts which have been replaced
-
-Update notes:
-2011-10-29 v1.0.0
-Initial version
-
-2011-10-29 v1.0.1
-1. Remove useless spaces
-2. Change function name
-
-2012-06-23 
-Add scripts/settings currently using
-
+1. old/* for old scripts which have been replaced
