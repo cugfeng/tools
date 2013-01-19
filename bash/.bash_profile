@@ -1,3 +1,7 @@
+if [ -f $HOME/.bashrc ]; then
+	source $HOME/.bashrc
+fi
+
 # cugfeng bash definitions
 SCRIPT_PATH=$HOME/tools/scripts
 BIN_PATH=$HOME/tools/bin
