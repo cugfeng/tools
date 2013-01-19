@@ -64,7 +64,6 @@ map <c-w><c-f> :TlistToggle<cr>
 map <F1> <Esc>
 imap <F1> <Esc>
 
-let g:LookupFile_TagExpr = string('./filenametags')
 let g:alternateNoDefaultAlternate = 1
 
 nnoremap <F2> :set invpaste paste?<CR>

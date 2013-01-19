@@ -11,6 +11,8 @@ files=$2
 [ -f $files ] && rm -f $files
 cat $dirs | while read dir; do
 	[ -z "$dir" ] && continue
+	[ -z "`echo $dir | grep ^#`" ] || continue
+	
 	echo "==> $dir"
 	find $dir -regex ".*\.\(h\|c\|cpp\)" -type f 2>/dev/null >> $files
 done
