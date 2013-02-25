@@ -1,6 +1,6 @@
 #!/bin/bash
 
-filelist="cscope.files"
+filelist="all.files"
 
 [ -f $filelist ] && rm -f $filelist
 
@@ -8,8 +8,12 @@ echo "Generating file list..."
 for dir in *.dirs; do
 	base=`echo $dir | sed 's/.dirs//g'`
 	gen-filelist $dir $base.files
-	[ -f $base.files ] && cat $base.files >> $filelist
+	if [ -f $base.files ]; then
+		[ -f $base.vim ] && vim -e -s $base.files < $base.vim
+		cat $base.files >> $filelist
+	fi
 done
+[ -f $filelist ] && cat $filelist | sort | uniq > cscope.files
 
 echo "Generating symbol..."
 csct -s

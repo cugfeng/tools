@@ -7,6 +7,8 @@ fi
 
 dirs=$1
 files=$2
+top=`pwd`
+systype=`uname -s`
 
 [ -f $files ] && rm -f $files
 cat $dirs | while read dir; do
@@ -14,6 +16,10 @@ cat $dirs | while read dir; do
 	[ -z "`echo $dir | grep ^#`" ] || continue
 	
 	echo "==> $dir"
-	find $dir -regex ".*\.\(h\|c\|cpp\)" -type f 2>/dev/null >> $files
+	if [ $systype = Linux ]; then
+		find "$top/$dir" -regex ".*\.\(h\|c\|cpp\|java\)" -type f 2>/dev/null >> $files
+	elif [ $systype = Darwin ]; then
+		find -E "$top/$dir" -regex ".*\.(h|c|cpp|java)" -type f 2>/dev/null >> $files
+	fi
 done
 
