@@ -7,7 +7,7 @@ fi
 
 dirs=$1
 files=$2
-top=`pwd`
+top=.
 systype=`uname -s`
 
 [ -f $files ] && rm -f $files
@@ -22,4 +22,5 @@ cat $dirs | while read dir; do
 		find -E "$top/$dir" -regex ".*\.(h|c|cpp|java)" -type f 2>/dev/null >> $files
 	fi
 done
+sed -i -e 's/^\.\///' $files
 

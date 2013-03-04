@@ -5,7 +5,6 @@ set autoindent
 set nocompatible
 set wrap
 set showmatch
-set autochdir
 
 set tabstop=4
 set softtabstop=4
@@ -21,6 +20,9 @@ syntax on
 " cscope setting
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 if has("cscope")
+	" Mac setting
+	" set csprg=/opt/local/bin/cscope
+	" Ubuntu setting
 	set csprg=/usr/bin/cscope
 	set csto=0
 	set cst
