@@ -17,9 +17,9 @@ cat $dirs | while read dir; do
 	
 	echo "==> $dir"
 	if [ $systype = Linux ]; then
-		find "$top/$dir" -regex ".*\.\(h\|c\|cpp\|java\)" -type f 2>/dev/null >> $files
+		find "$top/$dir" -regex ".*\.\(h\|c\|cc\|cpp\|java\)" -type f 2>/dev/null >> $files
 	elif [ $systype = Darwin ]; then
-		find -E "$top/$dir" -regex ".*\.(h|c|cpp|java)" -type f 2>/dev/null >> $files
+		find -E "$top/$dir" -regex ".*\.(h|c|cc|cpp|java)" -type f 2>/dev/null >> $files
 	fi
 done
 sed -i -e 's/^\.\///' $files
