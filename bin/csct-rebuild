@@ -2,7 +2,7 @@
 
 filelist="all.files"
 
-[ -f $filelist ] && rm -f $filelist
+rm -f $filelist
 
 echo "Generating file list..."
 for dir in *.dirs; do
@@ -11,9 +11,14 @@ for dir in *.dirs; do
 	if [ -f $base.files ]; then
 		[ -f $base.vim ] && vim -e -s $base.files < $base.vim
 		cat $base.files >> $filelist
+		rm -f $base.files
 	fi
 done
-[ -f $filelist ] && cat $filelist | sort | uniq > cscope.files
+
+if [ -f $filelist ]; then
+	cat $filelist | sort | uniq > cscope.files
+	rm -f $filelist
+fi
 
 echo "Generating symbol..."
 csct -s

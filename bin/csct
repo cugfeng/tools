@@ -1,28 +1,10 @@
 #!/bin/bash
 
-version=1.0.4
-date=2013-01-18
+version=1.0.5
+date=2013-03-20
 
-top=`pwd`
-systype=`uname -s`
 cs_file=cscope.files
 clean_file_list="$cs_file cscope.in.out cscope.po.out cscope.out tags"
-
-function gen_file_list()
-{
-	local _dir="$1"
-	
-	if [ -d "$_dir" ]; then
-		if [ $systype = Linux ]; then
-			find "$_dir" -regex ".*\.\(h\|c\|cpp\|java\)" -type f > $cs_file 2>/dev/null
-		elif [ $systype = Darwin ]; then
-			find -E "$_dir" -regex ".*\.(h|c|cpp|java)" -type f > $cs_file 2>/dev/null
-		fi
-	else
-		echo "Error: \`$_file' is not a directory or does not exist!" >&2
-		exit 1
-	fi
-}
 
 function gen_symbol_list()
 {
@@ -107,7 +89,9 @@ else
 fi
 
 if [ $b_gen_file_list = "true" ]; then
-	gen_file_list $top
+	echo . > self.dirs
+	gen-filelist self.dirs $cs_file
+	rm -f self.dirs
 fi
 
 if [ -n "$vim_file" ]; then

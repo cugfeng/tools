@@ -7,20 +7,26 @@ fi
 
 dirs=$1
 files=$2
-top=.
+
+temp=$files.tmp
 systype=`uname -s`
 
-[ -f $files ] && rm -f $files
+rm -f $temp
+
 cat $dirs | while read dir; do
 	[ -z "$dir" ] && continue
 	[ -z "`echo $dir | grep ^#`" ] || continue
 	
 	echo "==> $dir"
 	if [ $systype = Linux ]; then
-		find "$top/$dir" -regex ".*\.\(h\|c\|cc\|cpp\|java\)" -type f 2>/dev/null >> $files
+		find "$dir" -regex ".*\.\(h\|c\|cc\|cpp\|java\)" -type f 2>/dev/null >> $temp
 	elif [ $systype = Darwin ]; then
-		find -E "$top/$dir" -regex ".*\.(h|c|cc|cpp|java)" -type f 2>/dev/null >> $files
+		find -E "$dir" -regex ".*\.(h|c|cc|cpp|java)" -type f 2>/dev/null >> $temp
 	fi
 done
-sed -i -e 's/^\.\///' $files
+
+if [ -f $temp ]; then
+	cat $temp | sed -e 's/^\.\///' > $files
+	rm -f $temp
+fi
 
