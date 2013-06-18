@@ -56,10 +56,6 @@ nmap <C-c>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
 nmap <C-c>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
 nmap <C-c>d :cs find d <C-R>=expand("<cword>")<CR><CR>
 
-nmap <F8>s :%s/<C-R>=expand("<cword>")<CR>///
-
-let g:winManagerWindowLayout = "FileExplorer"
-map <c-w><c-t> :WMToggle<cr>
 map <c-w><c-f> :TlistToggle<cr>
 
 " disable F1 and map it to Esc
@@ -85,15 +81,4 @@ function! ListProjFile()
 endfunction
 nmap <F4>l :call ListProjFile()<CR>
 nmap <F4>m :MRU<CR>
-
-" Replaced by 'gf' at normal mode
-" function! OpenProjFiles()
-" 	let newfile = getline(line("."))
-" 	if filereadable(newfile)
-" 		exe "e " . newfile
-" 	else
-" 		echo "Warning: no file found!"
-" 	endif
-" endfunction
-" nmap <F4>o :call OpenProjFiles()<CR>
 
