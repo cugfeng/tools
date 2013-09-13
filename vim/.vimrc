@@ -56,7 +56,9 @@ nmap <C-c>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
 nmap <C-c>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
 nmap <C-c>d :cs find d <C-R>=expand("<cword>")<CR><CR>
 
-map <c-w><c-f> :TlistToggle<cr>
+nmap <c-w><c-f> :TlistToggle<CR>
+nmap <C-c>o :NERDTree<CR>
+nmap <C-c>m :MRU<CR>
 
 " disable F1 and map it to Esc
 map <F1> <Esc>
@@ -79,6 +81,5 @@ function! ListProjFile()
 		echo "Warning: no `cscope.files' found!"
 	endif
 endfunction
-nmap <F4>l :call ListProjFile()<CR>
-nmap <F4>m :MRU<CR>
+nmap <C-c>l :call ListProjFile()<CR>
 
