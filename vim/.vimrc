@@ -21,7 +21,7 @@ syntax on
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 if has("cscope")
 	" Mac setting
-	" set csprg=/opt/local/bin/cscope
+	" set csprg=/usr/local/bin/cscope
 	" Ubuntu setting
 	set csprg=/usr/bin/cscope
 	set csto=0
