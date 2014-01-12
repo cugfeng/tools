@@ -15,15 +15,15 @@ def to_kb(string):
 
 	return (int)(scale * float(string[:-1]))
 
-def cal(total_size, speed):
+def calculate(total_size, speed):
 	minutes  = total_size / (60 * speed)
 	hours    = minutes / 60
 	minutes %= 60
 	print "Speed %d KB/sec: need %d hours %d minutes" % (speed, hours, minutes)
 	 
-def cal_range(total_size, speed_min, speed_max, speed_step):
+def calculate_range(total_size, speed_min, speed_max, speed_step):
 	for speed in range(speed_min, speed_max, speed_step):
-		cal(total_size, speed)
+		calculate(total_size, speed)
 
 if __name__ == "__main__":
 	parser = OptionParser()
@@ -47,10 +47,10 @@ if __name__ == "__main__":
 	total_size = to_kb(options.size)
 	if options.speed is not None:
 		speed = to_kb(options.speed)
-		cal(total_size, speed)
+		calculate(total_size, speed)
 	else:
 		speed_min  = to_kb(options.speed_min)
 		speed_max  = to_kb(options.speed_max)
 		speed_step = to_kb(options.speed_step)
-		cal_range(total_size, speed_min, speed_max, speed_step)
+		calculate_range(total_size, speed_min, speed_max, speed_step)
 
