@@ -7,7 +7,6 @@ set wrap
 set showmatch
 
 set tabstop=4
-set softtabstop=4
 set shiftwidth=4
 set history=200
 set tags=tags;
@@ -15,7 +14,9 @@ set tags=tags;
 syntax on
 hi Comment ctermfg=6
 
+filetype on
 filetype plugin on
+au FileType h,c,cpp set expandtab
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " cscope setting
