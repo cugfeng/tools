@@ -1,0 +1,16 @@
+diff --git a/vim/.vimrc b/vim/.vimrc
+index 2e8786f..069c285 100644
+--- a/vim/.vimrc
++++ b/vim/.vimrc
+@@ -23,9 +23,9 @@ au FileType h,c,cpp set expandtab
+ """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+ if has("cscope")
+ 	" Mac setting
+-	" set csprg=/usr/local/bin/cscope
++	set csprg=/usr/local/bin/cscope
+ 	" Ubuntu setting
+-	set csprg=/usr/bin/cscope
++	" set csprg=/usr/bin/cscope
+ 	set csto=0
+ 	set cst
+ 	set nocsverb
