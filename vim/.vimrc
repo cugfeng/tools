@@ -12,9 +12,10 @@ set shiftwidth=4
 set history=200
 set tags=tags;
 
-"hi Comment ctermfg=6
-filetype plugin on
 syntax on
+hi Comment ctermfg=6
+
+filetype plugin on
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " cscope setting
@@ -72,7 +73,6 @@ set showmode
 
 au BufEnter *.files set cursorline
 au BufLeave *.files set nocursorline
-au BufEnter * hi Comment ctermfg=6
 
 function! ListProjFile()
 	let filelist = findfile("cscope.files", ".;")
