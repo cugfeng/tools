@@ -212,7 +212,7 @@ int write_header(int fd, const file_header *fh, const info_header *ih)
     return 0;
 }
 
-int write_pixels(int fd, const char *array, const info_header *ih)
+int write_pixel_array(int fd, const char *array, const info_header *ih)
 {
     int i, ret, count;
     int row_size = 0;
@@ -253,7 +253,7 @@ int write_pixels(int fd, const char *array, const info_header *ih)
     return ret;
 }
 
-void process_image(int fd_in, int fd_out)
+void process_bmp_file(int fd_in, int fd_out)
 {
     file_header fh;
     info_header ih;
@@ -277,7 +277,7 @@ void process_image(int fd_in, int fd_out)
     LOGD("Write BMP header");
     write_header(fd_out, &fh, &ih);
     LOGD("Write BMP pixel array");
-    write_pixels(fd_out, pixel_array, &ih);
+    write_pixel_array(fd_out, pixel_array, &ih);
     LOGD("Done");
 
     free(pixel_array);
@@ -315,7 +315,7 @@ int main(int argc, char *argv[])
         goto exit_2;
     }
 
-    process_image(fd_in, fd_out);
+    process_bmp_file(fd_in, fd_out);
 
     close(fd_out);
     chmod(argv[2], S_IRUSR | S_IXUSR);
