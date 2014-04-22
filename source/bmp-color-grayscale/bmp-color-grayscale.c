@@ -1,16 +1,16 @@
 /*
  * =====================================================================================
  *
- *       Filename:  bmp-blackwhite.c
+ *       Filename:  bmp-color-grayscale.c
  *
- *    Description:  Make BMP image black and white
+ *    Description:  Make BMP image grayscale
  *
  *        Version:  1.0
  *        Created:  04/22/2014 04:15:52 PM
  *       Revision:  none
  *       Compiler:  gcc
  *
- *         Author:  YOUR NAME (), 
+ *         Author:  cugfeng
  *   Organization:  
  *
  * =====================================================================================
@@ -118,14 +118,6 @@ int parse_header(int fd, file_header *fh, info_header *ih)
     }
 
     return 0;
-}
-
-void fill_header(file_header *fh, info_header *ih, int width, int height)
-{
-    ih->width     = width;
-    ih->height    = height;
-    fh->file_size = sizeof(file_header) + sizeof(info_header) 
-        + ROW_SIZE(ih) * height;
 }
 
 void dump_header(const file_header *fh, const info_header * ih)
