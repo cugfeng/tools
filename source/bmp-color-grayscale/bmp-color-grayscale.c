@@ -120,8 +120,11 @@ int parse_header(int fd, file_header *fh, info_header *ih)
     return 0;
 }
 
-void dump_header(const file_header *fh, const info_header * ih)
+void dump_header(const file_header *fh, const info_header *ih)
 {
+    assert(fh != NULL);
+    assert(ih != NULL);
+
     LOGI("width           : %d", ih->width);
     LOGI("height          : %d", ih->height);
     LOGI("bits per pixel  : %d", ih->no_bpp);
