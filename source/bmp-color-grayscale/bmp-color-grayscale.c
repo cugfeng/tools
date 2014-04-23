@@ -117,6 +117,10 @@ int parse_header(int fd, file_header *fh, info_header *ih)
         return -2;
     }
 
+    if (ih->image_size == 0) {
+        ih->image_size = ROW_PIXEL_BYTES(ih) * ih->height;
+    }
+
     return 0;
 }
 
