@@ -185,7 +185,7 @@ void color_to_grayscale(unsigned char *array, int size)
     float y;
     unsigned char r, g, b;
 
-    for (i = 0; i < size; i+=3) {
+    for (i = 0; i < size; i += 3) {
         r = array[i + 0];
         g = array[i + 1];
         b = array[i + 2];
