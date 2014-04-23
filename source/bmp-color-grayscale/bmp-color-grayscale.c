@@ -136,13 +136,13 @@ void dump_header(const file_header *fh, const info_header *ih)
     LOGI("file size       : %d", fh->file_size);
 }
 
-int read_pixel_array(int fd, char *array, const info_header *ih)
+int read_pixel_array(int fd, unsigned char *array, const info_header *ih)
 {
     int i, ret, count;
     int row_size = 0;
     int row_pixel_bytes = 0;
     int left_bytes = 0;
-    char *buffer = NULL;
+    unsigned char *buffer = NULL;
 
     assert(fd > 0);
     assert(array != NULL);
@@ -152,7 +152,7 @@ int read_pixel_array(int fd, char *array, const info_header *ih)
     row_pixel_bytes = ROW_PIXEL_BYTES(ih);
     left_bytes = ih->image_size;
 
-    buffer = (char *)malloc(row_size);
+    buffer = (unsigned char *)malloc(row_size);
     assert(buffer != NULL);
     for (i = 0; i < ih->height; ++i) {
         assert(left_bytes > 0);
@@ -177,19 +177,20 @@ int read_pixel_array(int fd, char *array, const info_header *ih)
     return ret;
 }
 
-void color_to_grayscale(char *array, int size)
+void color_to_grayscale(unsigned char *array, int size)
 {
     int i;
-    char r, g, b, y;
+    float y;
+    unsigned char r, g, b;
 
     for (i = 0; i < size; i+=3) {
         r = array[i + 0];
         g = array[i + 1];
         b = array[i + 2];
-        y = 0.299 * r + 0.587 * g + 0.114 * b;
-        array[i + 0] = y;
-        array[i + 1] = y;
-        array[i + 2] = y;
+        y = (float)(0.299 * r + 0.587 * g + 0.114 * b);
+        array[i + 0] = (unsigned char)y;
+        array[i + 1] = (unsigned char)y;
+        array[i + 2] = (unsigned char)y;
     }
 }
 
@@ -216,13 +217,13 @@ int write_header(int fd, const file_header *fh, const info_header *ih)
     return 0;
 }
 
-int write_pixel_array(int fd, const char *array, const info_header *ih)
+int write_pixel_array(int fd, const unsigned char *array, const info_header *ih)
 {
     int i, ret, count;
     int row_size = 0;
     int row_pixel_bytes = 0;
     int left_bytes = 0;
-    char *buffer = NULL;
+    unsigned char *buffer = NULL;
 
     assert(fd > 0);
     assert(array != NULL);
@@ -232,7 +233,7 @@ int write_pixel_array(int fd, const char *array, const info_header *ih)
     row_pixel_bytes = ROW_PIXEL_BYTES(ih);
     left_bytes = ih->image_size;
 
-    buffer = (char *)malloc(row_size);
+    buffer = (unsigned char *)malloc(row_size);
     assert(buffer != NULL);
     for (i = 0; i < ih->height; ++i) {
         assert(left_bytes > 0);
@@ -261,7 +262,7 @@ void process_bmp_file(int fd_in, int fd_out)
 {
     file_header fh;
     info_header ih;
-    char *pixel_array = NULL;
+    unsigned char *pixel_array = NULL;
 
     memset(&fh, 0, sizeof(file_header));
     memset(&ih, 0, sizeof(info_header));
@@ -270,7 +271,7 @@ void process_bmp_file(int fd_in, int fd_out)
     parse_header(fd_in, &fh, &ih);
     dump_header(&fh, &ih);
 
-    pixel_array = (char *)malloc(ih.image_size);
+    pixel_array = (unsigned char *)malloc(ih.image_size);
     assert(pixel_array != NULL);
 
     LOGD("Read BMP pixel array");
