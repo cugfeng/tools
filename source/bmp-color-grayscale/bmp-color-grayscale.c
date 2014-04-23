@@ -52,6 +52,8 @@
 #define LOGD(...)
 #endif
 
+/* BMP file header and info header definition is from Wikipedia.
+ * Link: http://en.wikipedia.org/wiki/BMP_file_format */
 typedef struct __attribute__ ((__packed__)) _file_header {
     char     magic[2];
     /* the size of the BMP file in bytes */
@@ -179,6 +181,9 @@ int read_pixel_array(int fd, unsigned char *array, const info_header *ih)
     return ret;
 }
 
+/* RGB to/from YUV conversion is from Wikipedia.
+ * Link: http://en.wikipedia.org/wiki/YUV
+ * Only keep Y channel for YUV, U and V channels are default as zero */
 void color_to_grayscale(unsigned char *array, int size)
 {
     int i;
