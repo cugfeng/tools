@@ -97,6 +97,8 @@ typedef struct __attribute__ ((__packed__)) _info_header {
 #define ROW_SIZE(ih)        ((((ih->no_bpp * ih->width) + 31) >> 5) << 2)
 #define ROW_PIXEL_BYTES(ih) ((ih->no_bpp * ih->width) >> 3)
 
+//#define COUNT_GRAYSCALE_VALUE
+
 int parse_header(int fd, file_header *fh, info_header *ih)
 {
     int ret = 0;
@@ -258,6 +260,24 @@ int write_pixel_array(int fd, const unsigned char *array, const info_header *ih)
     return ret;
 }
 
+#ifdef COUNT_GRAYSCALE_VALUE
+void count_grayscale_value(const unsigned char *array, int size)
+{
+    int i = 0;
+    int count[256] = {0};
+
+    assert(array != NULL);
+
+    for (i = 0; i < size; i += 3) {
+        ++count[array[i]];
+    }
+
+    for (i = 0; i < 256; ++i) {
+        LOGI("%d", count[i]);
+    }
+}
+#endif
+
 void process_bmp_file(int fd_in, int fd_out)
 {
     file_header fh;
@@ -284,6 +304,12 @@ void process_bmp_file(int fd_in, int fd_out)
     LOGD("Write BMP pixel array");
     write_pixel_array(fd_out, pixel_array, &ih);
     LOGD("Done");
+
+#ifdef COUNT_GRAYSCALE_VALUE
+    LOGD("Count grayscale value");
+    count_grayscale_value(pixel_array, ih.image_size);
+    LOGD("Done");
+#endif
 
     free(pixel_array);
     pixel_array = NULL;
