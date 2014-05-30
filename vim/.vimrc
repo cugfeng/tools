@@ -67,6 +67,7 @@ map <F1> <Esc>
 imap <F1> <Esc>
 
 let g:alternateNoDefaultAlternate = 1
+let MRU_Max_Entries = 1000
 
 nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
