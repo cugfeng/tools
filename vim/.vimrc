@@ -17,6 +17,7 @@ hi Comment ctermfg=6
 filetype on
 filetype plugin on
 au FileType h,c,cpp set expandtab
+au FileType html,css,js,php set expandtab
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " cscope setting
