@@ -18,7 +18,7 @@ cat $dirs | while read dir; do
 	[ -z "`echo $dir | grep ^#`" ] || continue
 	
 	echo "==> $dir"
-	if [ $systype = Linux ]; then
+	if [ $systype = Linux ] || [ `expr substr $systype 1 6` = CYGWIN ]; then
 		find "$dir" -regex ".*\.\(h\|c\|cc\|cpp\|java\)" -type f 2>/dev/null >> $temp
 	elif [ $systype = Darwin ]; then
 		find -E "$dir" -regex ".*\.(h|c|cc|cpp|java)" -type f 2>/dev/null >> $temp
