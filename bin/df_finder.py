@@ -14,11 +14,30 @@ from hashlib import md5
 import os, os.path
 import shutil
 import string, sys
+import logging
 from optparse import OptionParser
 
 g_dict = {}
 g_dups = []
 g_dst  = "dst"
+g_log  = "df_finder.log"
+
+g_logger = logging.getLogger()
+
+def init_logger():
+	formatter = logging.Formatter("[%(asctime)s] [%(levelname)s] %(message)s")
+
+	file_handler = logging.FileHandler(g_log)
+	file_handler.setFormatter(formatter)
+	file_handler.setLevel(logging.DEBUG)
+
+	stream_handler = logging.StreamHandler()
+	stream_handler.setFormatter(formatter)
+	stream_handler.setLevel(logging.INFO)
+
+	g_logger.addHandler(file_handler)
+	g_logger.addHandler(stream_handler)
+	g_logger.setLevel(logging.DEBUG)
 
 def gen_file_md5sum(file_path):
 	m = md5()
@@ -34,9 +53,9 @@ def gen_dict(dir_path):
 		for name in files:
 			val = os.path.join(root, name)
 			key = gen_file_md5sum(val)
-			print "[MD5] %s: %s"%(key, val)
+			g_logger.debug("MD5 %s: %s"%(key, val))
 			if key in g_dict:
-				print "[DUP] %s vs %s"%(g_dict[key], val)
+				g_logger.info("Duplicate file: %s vs %s"%(g_dict[key], val))
 				g_dups.append(val)
 			else:
 				g_dict[key] = val
@@ -54,7 +73,9 @@ def main(args):
 
 	if len(args) == 0:
 		parser.error("Please specify at least one directory!")
-		
+
+	init_logger()
+
 	for dir_path in args:
 		if os.path.isdir(dir_path):
 			gen_dict(dir_path)
@@ -71,9 +92,9 @@ def main(args):
 				file_tmp = get_file_name(file_name, i)
 				file_dst = os.path.join(g_dst, file_tmp)
 				if not os.path.exists(file_dst):
-					print "Rename %s to %s"%(file_name, file_tmp)
+					g_logger.info("Rename %s to %s"%(file_name, file_tmp))
 					break
-		print "Move %s to %s"%(file_src, file_dst)
+		g_logger.info("Move %s to %s"%(file_src, file_dst))
 		shutil.move(file_src, file_dst)
 
 if __name__ == "__main__":
