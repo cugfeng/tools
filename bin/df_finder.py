@@ -41,6 +41,13 @@ def gen_dict(dir_path):
 			else:
 				g_dict[key] = val
 
+def get_file_name(file_name, index):
+	words = file_name.rsplit('.', 1)
+	if len(words) == 1:
+		return "%s-%d"%(file_name, index)
+	else:
+		return "%s-%02d.%s"%(words[0], index, words[1])
+
 def main(args):
 	parser = OptionParser(usage="%s [dir...]"%(args[0]))
 	(options, args) = parser.parse_args()
@@ -54,11 +61,20 @@ def main(args):
 		else:
 			parser.error("Directory `%s' does not exist!"%(dir_path))
 
-	if not os.path.isdir(g_dst):
+	if not os.path.exists(g_dst):
 		os.mkdir(g_dst)
-	for file_path in g_dups:
-		print "Move %s to %s"%(file_path, g_dst)
-		shutil.move(file_path, g_dst)
+	for file_src in g_dups:
+		file_name = os.path.basename(file_src)
+		file_dst  = os.path.join(g_dst, file_name)
+		if os.path.exists(file_dst):
+			for i in range(64):
+				file_tmp = get_file_name(file_name, i)
+				file_dst = os.path.join(g_dst, file_tmp)
+				if not os.path.exists(file_dst):
+					print "Rename %s to %s"%(file_name, file_tmp)
+					break
+		print "Move %s to %s"%(file_src, file_dst)
+		shutil.move(file_src, file_dst)
 
 if __name__ == "__main__":
 	main(sys.argv)
