@@ -17,10 +17,12 @@ import string, sys
 import logging
 from optparse import OptionParser
 
-g_dict = {}
-g_dups = []
+g_dict_md5  = {}
+g_dict_name = {}
+g_dups = set()
 g_dst  = "dst"
 g_log  = "df_finder.log"
+g_size_threshold = 64
 
 g_logger = logging.getLogger()
 
@@ -48,17 +50,82 @@ def gen_file_md5sum(file_path):
 
 	return m.hexdigest()
 
+def is_jpeg(file_path):
+	file_name = os.path.basename(file_path)
+	words = file_name.rsplit('.', 1)
+	if len(words) == 2:
+		file_ext = words[1].lower()
+		if file_ext in [ "jpg", "jpeg" ]:
+			return True
+
+	return False
+
+def is_same_jpeg(file_l, file_r):
+	file_l_obj = open(file_l, "r")
+	file_l_content = file_l_obj.read()
+	file_l_obj.close()
+
+	file_r_obj = open(file_r, "r")
+	file_r_content = file_r_obj.read()
+	file_r_obj.close()
+
+	file_l_size = os.path.getsize(file_l)
+	file_r_size = os.path.getsize(file_r)
+
+	# Assume data after EOI no larger than g_size_threshold bytes
+	if abs(file_l_size - file_r_size) > g_size_threshold:
+		g_logger.debug("Size difference between %s and %s is larger than %d"%(file_l, file_r, g_size_threshold))
+		return False
+
+	# http://en.wikipedia.org/wiki/JPEG
+	# JPEG EOI (End Of Image): 0xFF 0xD9
+	if file_l_size > file_r_size:
+		eoi_1 = file_l_content[file_r_size - 2]
+		eoi_2 = file_l_content[file_r_size - 1]
+		cmp_size = file_r_size
+	else:
+		eoi_1 = file_r_content[file_l_size - 2]
+		eoi_2 = file_r_content[file_l_size - 1]
+		cmp_size = file_l_size
+	if eoi_1 != '\xFF' or eoi_2 != '\xD9':
+		g_logger.debug("Seems both %s and %s have data after EOI"%(file_l, file_r))
+		return False
+
+	for i in range(cmp_size):
+		if file_l_content[i] != file_r_content[i]:
+			g_logger.debug("File content at 0x%x (0x%02X vs 0x%02X) is not the same"%(i, file_l_content[i], file_r_content[i]))
+			return False
+
+	return True
+
 def gen_dict(dir_path):
 	for root, dirs, files in os.walk(dir_path):
 		for name in files:
 			val = os.path.join(root, name)
+
+			# For MD5
 			key = gen_file_md5sum(val)
 			g_logger.debug("MD5 %s: %s"%(key, val))
-			if key in g_dict:
-				g_logger.info("Duplicate file: %s vs %s"%(g_dict[key], val))
-				g_dups.append(val)
+			if key in g_dict_md5:
+				g_logger.info("Duplicate file: %s vs %s"%(g_dict_md5[key], val))
+				g_dups.add(val)
 			else:
-				g_dict[key] = val
+				g_dict_md5[key] = val
+
+			# For file name and content
+			if name in g_dict_name:
+				g_logger.debug("File %s already exist"%(name))
+				path_list = g_dict_name[name]
+				for file_path in path_list:
+					if is_jpeg(val) and is_same_jpeg(file_path, val):
+						g_logger.info("Duplicate file: %s vs %s"%(file_path, val))
+						g_dups.add(val)
+						break
+				else:
+					path_list.append(val)
+				g_dict_name[name] = path_list
+			else:
+				g_dict_name[name] = [(val)]
 
 def get_file_name(file_name, index):
 	words = file_name.rsplit('.', 1)
