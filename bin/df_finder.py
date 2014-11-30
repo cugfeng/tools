@@ -74,7 +74,8 @@ def is_same_jpeg(file_l, file_r):
 
 	# Assume data after EOI no larger than g_size_threshold bytes
 	if abs(file_l_size - file_r_size) > g_size_threshold:
-		g_logger.debug("Size difference between %s and %s is larger than %d"%(file_l, file_r, g_size_threshold))
+		g_logger.debug("Size difference between %s and %s is larger than %d"%(
+					file_l, file_r, g_size_threshold))
 		return False
 
 	# http://en.wikipedia.org/wiki/JPEG
@@ -93,7 +94,8 @@ def is_same_jpeg(file_l, file_r):
 
 	for i in range(cmp_size):
 		if file_l_content[i] != file_r_content[i]:
-			g_logger.debug("File content at 0x%x (0x%02X vs 0x%02X) is not the same"%(i, file_l_content[i], file_r_content[i]))
+			g_logger.debug("File content at 0x%x (0x%02X vs 0x%02X) is not the same"%(
+						i, file_l_content[i], file_r_content[i]))
 			return False
 
 	return True
