@@ -1,0 +1,10 @@
+# Make kernel image
+ccache make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- -j 6
+
+# Make Kernel modules
+ccache make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- -j 6 INSTALL_MOD_PATH=/media/shawn/548da502-ebde-45c0-9ab2-de5e2431ee0b modules
+ccache make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- -j 6 INSTALL_MOD_PATH=output modules
+ccache make modules ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- -j 6
+
+# Install modules to SD Card
+sudo ccache make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- -j 6 INSTALL_MOD_PATH=/media/shawn/548da502-ebde-45c0-9ab2-de5e2431ee0b modules_install
