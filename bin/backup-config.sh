@@ -1,6 +1,6 @@
 #!/bin/bash
 
-src_file=".bash_aliases .bash_profile .bashrc .bash_user .vimrc .sdirs"
+src_file=".bash_aliases .bash_user .zshrc .vimrc"
 src_dir=".vim"
 
 time=`date +%Y%m%d-%H%M%S`
