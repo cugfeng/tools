@@ -6,7 +6,7 @@ TOOLS=$HOME/tools
 [ -d $GITHUB ] || mkdir -p $GITHUB
 cd $GITHUB && git clone https://github.com/cugfeng/tools.git
 
-BASH_FILES=".bash_aliases .bash_user"
+BASH_FILES=".bash_aliases .bash_user .tmux.conf .gitconfig"
 VIM_FILES=".vim .vimrc"
 
 [ -d $TOOLS ] || mkdir -p $TOOLS

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-src_file=".bash_aliases .bash_user .zshrc .vimrc"
+src_file=".bash_aliases .bash_user .vimrc .tmux.conf .gitconfig"
 src_dir=".vim"
 
 time=`date +%Y%m%d-%H%M%S`
