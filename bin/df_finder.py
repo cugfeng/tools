@@ -75,6 +75,7 @@ def gen_file_md5sum(file_path):
     return m.hexdigest()
 
 def find_duplicate(dir_path):
+    dir_path = unicode（dir_path)
     for root, dirs, files in os.walk(dir_path):
         for name in files:
             val = os.path.join(root, name)
