@@ -31,11 +31,21 @@ def init_logger():
     g_logger.setLevel(logging.DEBUG)
 
 def remove_empty_dir(dir_path):
+    db_file  = "Thumbs.db"
     dir_path = unicode(dir_path)
     for root, dirs, files in os.walk(dir_path, topdown=False):
         for name in dirs:
+            is_dir_empty = False
             sub_dir_path = os.path.join(root, name)
-            if len(os.listdir(sub_dir_path)) == 0:
+            sub_dir_list = os.listdir(sub_dir_path)
+            if len(sub_dir_list) == 0:
+                is_dir_empty = True
+            elif len(sub_dir_list) == 1 and db_file in sub_dir_list:
+                db_file_path = os.path.join(sub_dir_path, db_file)
+                g_logger.info("Remove db file: %s"%(db_file_path))
+                os.remove(db_file_path)
+                is_dir_empty = True
+            if is_dir_empty:
                 g_logger.info("Remove empty directory: %s"%(sub_dir_path))
                 os.rmdir(sub_dir_path)
 
