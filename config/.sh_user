@@ -1,4 +1,4 @@
-# bash user configuration
+# User configuration
 #
 BIN_PATH=$HOME/tools/bin
 

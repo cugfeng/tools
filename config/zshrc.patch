@@ -1,0 +1,27 @@
+--- .zshrc	2015-04-21 11:32:09.936168513 +0800
++++ .zshrc	2015-04-21 11:32:32.044168458 +0800
+@@ -5,7 +5,7 @@
+ # Look in ~/.oh-my-zsh/themes/
+ # Optionally, if you set this to "random", it'll load a random theme each
+ # time that oh-my-zsh is loaded.
+-ZSH_THEME="robbyrussell"
++ZSH_THEME="gianu"
+ 
+ # Uncomment the following line to use case-sensitive completion.
+ # CASE_SENSITIVE="true"
+@@ -45,7 +45,7 @@
+ # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
+ # Example format: plugins=(rails git textmate ruby lighthouse)
+ # Add wisely, as too many plugins slow down shell startup.
+-plugins=(git)
++plugins=(git autojump)
+ 
+ # User configuration
+ 
+@@ -78,3 +78,6 @@
+ # Example aliases
+ # alias zshconfig="mate ~/.zshrc"
+ # alias ohmyzsh="mate ~/.oh-my-zsh"
++
++source ~/.sh_user
++source ~/.sh_aliases
