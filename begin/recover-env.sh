@@ -1,19 +1,34 @@
 #!/bin/bash
 
-GITHUB=$HOME/github
-TOOLS=$HOME/tools
+G_TOOLS=$HOME/github/tools
+H_TOOLS=$HOME/tools
 
-[ -d $GITHUB ] || mkdir -p $GITHUB
-cd $GITHUB && git clone https://github.com/cugfeng/tools.git
-
-BASH_FILES=".bash_aliases .bash_user .tmux.conf .gitconfig"
+CFG_FILES=".sh_aliases .sh_user .tmux.conf .gitconfig"
 VIM_FILES=".vim .vimrc"
+BIN_FILES="bin python shell"
 
-[ -d $TOOLS ] || mkdir -p $TOOLS
-for file in $BASH_FILES; do
-	cp -rf $GITHUB/tools/bash/$file $HOME
+if [ ! -d $G_TOOLS ]; then
+	echo "Please run command below to clone from github:"
+	echo "    mkdir -p $HOME/github && cd $HOME/github"
+	echo "    git clone https://github.com/cugfeng/tools.git"
+	echo
+
+	exit 0
+fi
+
+for file in $CFG_FILES; do
+	cp -rf $G_TOOLS/config/$file $HOME
 done
 for file in $VIM_FILES; do
-	cp -rf $GITHUB/tools/vim/$file $HOME
+	cp -rf $G_TOOLS/vim/$file $HOME
 done
-cp -rf $GITHUB/tools/bin $TOOLS
+
+[ -d $H_TOOLS ] || mkdir -p $H_TOOLS
+for file in $BIN_FILES; do
+	cp -rf $G_TOOLS/$file $H_TOOLS
+done
+
+# Install oh my zsh and configure it
+wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O - | sh
+cd $HOME && patch -p0 < $G_TOOLS/config/zshrc.patch
+
