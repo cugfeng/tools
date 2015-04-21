@@ -17,6 +17,3 @@ for file in $VIM_FILES; do
 	cp -rf $GITHUB/tools/vim/$file $HOME
 done
 cp -rf $GITHUB/tools/bin $TOOLS
-chmod u+x $TOOLS/bin/*
-cp -rf $GITHUB/tools/scripts $TOOLS
-
