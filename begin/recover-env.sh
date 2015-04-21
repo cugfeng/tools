@@ -28,7 +28,12 @@ for file in $BIN_FILES; do
 	cp -rf $G_TOOLS/$file $H_TOOLS
 done
 
-# Install oh my zsh and configure it
-wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O - | sh
-cd $HOME && patch -p0 < $G_TOOLS/config/zshrc.patch
+# Install Oh My Zsh and configure it
+if [ -d $HOME/.oh-my-zsh ]; then
+	echo "Oh My Zsh had been installed before."
+	echo "If you want to install again, please remove $HOME/.oh-my-zsh at first."
+else
+	wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O - | sh
+	cd $HOME && patch -p0 < $G_TOOLS/config/zshrc.patch
+fi
 
