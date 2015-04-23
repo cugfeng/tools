@@ -1,13 +1,10 @@
-This project is Shell/Python scripts used in my daily life, mainly for:
-1. Bash configruation
-2. Vim configruation
-3. Cscope related scripts
+This repository is a backup of configuration files and tools used in my daily life.
 
-Under Linux:
-1. Copy bash/* to $HOME
-2. Copy vim/* to $HOME
-3. Copy bin to $HOME/tools
-4. Copy scripts to $HOME/tools
-
-Under Windows:
-1. shutdown.py for shutdowning computer in/at special time
+1. begin: after installing Linux, use scripts in it to install packages and recover configuration files
+2. bin: hellper scripts to generate indexs using ctag and cscope
+3. config: shell, git, tmux configuration files
+4. docs: personal notes
+5. python: tools writen in python
+6. shell: tools writen in shell
+7. source: tools writen other than python or shell
+8. vim: vim configuration files
