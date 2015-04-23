@@ -1,35 +1,50 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 
-import os
 import sys
 import time
 import string
+import subprocess
 from optparse import OptionParser
 
-def shutdown_in_minutes(_min):
-    print("Shutdown in {0:.0f} hour(s) {1:.0f} minute(s)...".format(_min / 60, _min % 60))
+def shutdown():
+    print "Shutdown now..."
+    if sys.platform.startswith("win") or sys.platform.startswith("cygwin"):
+        subprocess.call(["shutdown", "/s"])
+    elif sys.platform.startswith("linux"):
+        subprocess.call(["shutdown", "-h", "now"])
+    else:
+        print "Platform \`%s' is not supported!"%(sys.platform)
 
-    while _min > 0:
-        _hour_left, _min_left = divmod(_min, 60)
-        print("\rTime left: {0:.0f} hour(s) {1:02.0f} minute(s)...".format(_hour_left, _min_left), end='')
+def shutdown_in_minutes(minutes):
+    while minutes > 0:
+        _hour, _min = divmod(minutes, 60)
+        print "Shutdown in %02d hour(s) %02d minute(s)..."%(_hour, _min)
 
         time.sleep(60)
-        _min -= 1
+        minutes -= 1
 
-    if sys.platform == "win32":
-        os.system("shutdown -s")
+    shutdown()
+
+def linux_is_root():
+    _id = subprocess.check_output(["id", "-u"])
+    if _id[:-1] == "0":
+        return True
     else:
-        os.system("shutdown -h now")
+        return False
 
-def time2min(_time):
-    _time_list = str.split(_time, ':')
+def strtime_to_minutes(strtime):
+    _time_list = str.split(strtime, ':')
     _hour = int(_time_list[0])
     _min  = int(_time_list[1])
 
-    _min += _hour * 60
-    return _min
+    return _hour * 60 + _min
 
 def main(args):
+    if sys.platform.startswith("linux"):
+        if not linux_is_root():
+            print "You must be root to run this program!"
+            return
+
     parser = OptionParser(usage="shutdown.py [-i n[hm]] [-a hh:mm]")
     parser.add_option("-i", "--in", action="store", type="string", 
             dest="intime", help="Shutdown in n hours/minutes")
@@ -37,7 +52,6 @@ def main(args):
             dest="attime", help="Shutdown at hh:mm")
     (options, args) = parser.parse_args()
 
-    #print(options)
     _argc = 0
     if options.intime is not None:
         _argc += 1
@@ -58,7 +72,7 @@ def main(args):
         shutdown_in_minutes(_min)
 
     if options.attime is not None:
-        _min = time2min(options.attime) 
+        _min = strtime_to_minutes(options.attime)
         _now = time.localtime()
         _cur_min = _now.tm_hour * 60 + _now.tm_min
         if (_min < _cur_min):
