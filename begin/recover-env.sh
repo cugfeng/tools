@@ -35,5 +35,6 @@ if [ -d $HOME/.oh-my-zsh ]; then
 else
 	wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O - | sh
 	cd $HOME && patch -p0 < $G_TOOLS/config/zshrc.patch
+	chsh -s /usr/bin/zsh
 fi
 
