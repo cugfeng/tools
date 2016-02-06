@@ -3,3 +3,5 @@
 	name = Shawn Si
 [core]
 	editor = vim
+[color]
+	ui = auto
