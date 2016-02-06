@@ -5,18 +5,18 @@ set autoindent
 set nocompatible
 set wrap
 set showmatch
+set expandtab
 
 set tabstop=4
 set shiftwidth=4
 set history=200
 set tags=tags;
+set colorcolumn=100
 
 syntax on
 hi Comment ctermfg=6
 
 filetype plugin indent on
-au FileType h,c,cpp set expandtab
-au FileType html,css,js,php set expandtab
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " cscope setting
@@ -69,8 +69,8 @@ imap <F1> <Esc>
 let g:alternateNoDefaultAlternate = 1
 let MRU_Max_Entries = 1000
 
-nnoremap <F2> :set invpaste paste?<CR>
-set pastetoggle=<F2>
+nnoremap <C-c>p :set invpaste paste?<CR>
+set pastetoggle=<C-c>p
 set showmode
 
 au BufEnter *.files set cursorline
