@@ -18,10 +18,10 @@ cat $dirs | while read dir; do
 	[ -z "`echo $dir | grep ^#`" ] || continue
 	
 	echo "==> $dir"
-	if [ $systype = Darwin ]; then
-		find -E "$dir" -regex ".*\.(S|h|c|cc|cpp|java)" -type f 2>/dev/null >> $temp
-	elif [ $systype = Linux ] || [ `expr substr $systype 1 6` = CYGWIN ]; then
-		find "$dir" -regex ".*\.\(S\|h\|c\|cc\|cpp\|java\)" -type f 2>/dev/null >> $temp
+	if [ $systype = Linux ]; then
+		find "$dir" -regex ".*\.\(S\|h\|c\|cc\|cpp\)" -type f 2>/dev/null >> $temp
+	elif [ $systype = Darwin ]; then
+		find -E "$dir" -regex ".*\.(S|h|c|cc|cpp)" -type f 2>/dev/null >> $temp
 	fi
 done
 

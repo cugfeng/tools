@@ -4,6 +4,18 @@ filelist="all.files"
 
 rm -f $filelist
 
+prefix=`basename $PWD | sed 's/_.*//g'`
+CSCT_CFG=$HOME/backup/csct-cfg
+if [ ! -f $prefix.dirs ]; then
+	if [ -f $CSCT_CFG/$prefix.dirs ]; then
+		echo "Copy configuration file..."
+		cp -f $CSCT_CFG/$prefix.* .
+	else
+		echo "Error: no configuration file for directory \`$prefix'"
+		exit 0
+	fi
+fi
+
 echo "Generating file list..."
 for dir in *.dirs; do
 	base=`echo $dir | sed 's/.dirs//g'`
