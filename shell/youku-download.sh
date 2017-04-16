@@ -6,8 +6,8 @@ while read link; do
     fi
 
     echo "you-get $link"
-    you-get -c $(pwd)/cookies.sqlite "$link"
-    #you-get "$link"
+    you-get "$link"
+    #you-get -c $(pwd)/cookies.sqlite "$link"
     if [ $? -ne 0 ]; then
         echo "Failed to download $link"
     fi
