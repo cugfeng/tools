@@ -11,7 +11,7 @@ set tabstop=4
 set shiftwidth=4
 set history=200
 set tags=tags;
-set colorcolumn=100
+"set colorcolumn=100
 
 syntax on
 hi Comment ctermfg=6
