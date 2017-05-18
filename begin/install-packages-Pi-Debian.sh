@@ -1,10 +1,8 @@
-#! /bin/sh
+#!/bin/bash
 
 PACKAGES=
-PACKAGES="$PACKAGES smbd samba smbpasswd ftp vim git ctags cscope"
-PACKAGES="$PACKAGES omxplayer fbi parted tree screen autossh privoxy"
-### For Bit torrent download and web interface ###
-PACKAGES="$PACKAGES deluged deluge-console python-mako deluge-web" 
+PACKAGES="$PACKAGES git vim ctags cscope dos2unix wget curl rsync samba"
+PACKAGES="$PACKAGES python python-pip fail2ban supervisor htop tree tmux"
 
 # Install all packages on Raspberry Pi Debian system
 for package in $PACKAGES; do
